@@ -1,12 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Acao } from '../acoes.model';
+import { AcoesService } from '../acoes.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  constructor() {}
+  acoes$: Observable<Acao[]>;
+
+  constructor(
+    private acoesService: AcoesService
+  ) {}
+
+  ngOnInit() {
+    this.acoes$ = this.acoesService.acoes$;
+  }
 
 }

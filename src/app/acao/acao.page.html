@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ação</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card *ngIf="acoesService.acao$ | async; let acao">
+    <ion-item>
+      <ion-label>
+        <h2>{{acao.ticket}}</h2>
+        <h3>{{acao.nome}}</h3>
+      </ion-label>
+      <ion-note slot="end" color="success">Valor Ação: R$ {{acao.cotacao}}</ion-note>
+    </ion-item>
+    <ion-item *ngIf="ativo">
+      <ion-label>
+        <h2>{{ativo.quantidade}}</h2>
+        <h3>Quantidade na Carteira</h3>
+      </ion-label>
+      <ion-note slot="end" color="success">Valor total R$ {{acao.cotacao * ativo.quantidade}}</ion-note>
+    </ion-item>
+  </ion-card>
+  <ion-card *ngIf="acoesService.ordensUsuario$ | async; let ordensUsuario">
+    <ion-list>
+      <ion-list-header>
+        Ordens Abertas
+      </ion-list-header>
+    <ion-item *ngFor="let ordem of ordensUsuario">
+      <ion-label>
+        <h2>{{ordem.quantidade}}</h2>
+        <h3>{{ordem.tipo}}</h3>
+      </ion-label>
+      <ion-note slot="end" color="success">R$ {{ordem.valor}}</ion-note>
+    </ion-item>
+  </ion-list>
+  </ion-card>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="wallet"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="start">
+      <ion-fab-button (click)="criarOrdem('compra')">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button (click)="criarOrdem('venda')" *ngIf="ativo && ativo.quantidade">
+        <ion-icon name="remove-circle-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>
